@@ -6,3 +6,5 @@ This contains some simple copy &amp; paste scripts to be pasted into your develo
 | Name | Function |
 |------|----------|
 |Auto Clicker|Clicks a bunch of times until turned off by user|
+
+More are on the way!
