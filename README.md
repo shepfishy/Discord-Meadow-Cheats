@@ -1,51 +1,50 @@
 # Discord-Meadow-Cheats
 This contains some simple copy &amp; paste scripts to be pasted into your developer console
 
-## Auto-clicker
-``` 
-(function() {
-    const clickInterval = setInterval(() => {
-        const elements = document.querySelectorAll('[class*="logoGreen"]');
-        if (elements.length > 0) {
-            elements.forEach(element => {
-                element.click();
-                console.log('Clicked on element with logoGreen class');
-            });
-        } else {
-            console.log('No elements with logoGreen class found');
-        }
-    }, 1); // Click every single millisecond
-    
-    // To stop the clicking, run this function in the console:
-    window.stopLogoClicking = function() {
-        clearInterval(clickInterval);
-        console.log('Stopped clicking on logoGreen elements');
-    };
-    
-    console.log('Started continuous clicking. Run stopLogoClicking() to stop.');
-})();
-```
-
+## copy-paste
 ```
 (function() {
-    const clickInterval = setInterval(() => {
-        const elements = document.querySelectorAll('[class*="logo_"]');
-        if (elements.length > 0) {
-            elements.forEach(element => {
-                element.click();
-                console.log('Clicked on element with logo_ class');
-            });
-        } else {
-            console.log('No elements with logo_ class found');
-        }
-    }, 1); // Click every single millisecond
+    // Define the class names to target
+    const targetClasses = [
+        { name: 'primaryShop__', stopFnName: 'stopShopClicking' },
+        { name: 'logoGreen', stopFnName: 'stopLogoGreenClicking' },
+        { name: 'logo_', stopFnName: 'stopLogoClicking' }
+    ];
     
-    // To stop the clicking, run this function in the console:
-    window.stopLogoClicking = function() {
-        clearInterval(clickInterval);
-        console.log('Stopped clicking on logo_ elements');
+    // Create click intervals for each target class
+    const clickIntervals = targetClasses.map(target => {
+        const interval = setInterval(() => {
+            const elements = document.querySelectorAll(`[class*="${target.name}"]`);
+            if (elements.length > 0) {
+                elements.forEach(element => {
+                    element.click();
+                    console.log(`Clicked on element with ${target.name} class`);
+                });
+            } else {
+                console.log(`No elements with ${target.name} class found`);
+            }
+        }, 1); // Click every single millisecond
+        
+        // Create stop function for this interval
+        window[target.stopFnName] = function() {
+            clearInterval(interval);
+            console.log(`Stopped clicking on ${target.name} elements`);
+        };
+        
+        console.log(`Started continuous clicking on ${target.name}. Run ${target.stopFnName}() to stop.`);
+        
+        return { interval, target };
+    });
+    
+    // Add a function to stop all clicking
+    window.stopAllClicking = function() {
+        clickIntervals.forEach(({ interval, target }) => {
+            clearInterval(interval);
+            console.log(`Stopped clicking on ${target.name} elements`);
+        });
+        console.log('Stopped all automatic clicking');
     };
     
-    console.log('Started continuous clicking. Run stopLogoClicking() to stop.');
+    console.log('Started all automatic clicking. Run stopAllClicking() to stop everything.');
 })();
 ```
